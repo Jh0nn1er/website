@@ -1,0 +1,9 @@
+# IDE
+.vs
+
+# build files
+bin
+obj
+
+# Environment
+.env
