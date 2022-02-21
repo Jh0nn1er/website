@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebsiteForms.API.v1.Models.Requests;
 using WebsiteForms.Authorization;
 using WebsiteForms.Repositories.RequestTypesRepository;
 
@@ -26,9 +27,9 @@ namespace WebsiteForms.API.v1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(IFormCollection data, IFormFile? pdfFile = null)
+        public IActionResult Create([FromForm] RequestRequest req)
         {
-            return Ok(data);
+            return Ok(req);
         }
     }
 }
