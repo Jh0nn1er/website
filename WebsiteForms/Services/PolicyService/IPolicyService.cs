@@ -2,6 +2,6 @@
 {
     public interface IPolicyService
     {
-        Task<string> Save(IFormFile file);
+        Task<string> Save(IFormFile file, string filename = null);
     }
 }
