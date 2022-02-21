@@ -4,7 +4,6 @@
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using WebsiteForms.Database;
 
     internal sealed class Configuration : DbMigrationsConfiguration<WebsiteForms.Database.WebsiteFormsContext>
     {
@@ -13,7 +12,7 @@
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(WebsiteFormsContext context)
+        protected override void Seed(WebsiteForms.Database.WebsiteFormsContext context)
         {
             context.RequestTypes.AddRange(Initializer.GetRequestTypes());
             context.Users.AddRange(Initializer.GetUsers());

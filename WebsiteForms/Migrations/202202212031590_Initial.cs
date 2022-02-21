@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -19,11 +19,11 @@
                         Credit = c.String(maxLength: 10),
                         ModificationType = c.String(maxLength: 50),
                         Term = c.Int(),
-                        NewPaymentDate = c.DateTime(nullable: false),
+                        NewPaymentDate = c.DateTime(),
                         LossOccuranceType = c.String(maxLength: 50),
                         VehicleChanges = c.String(maxLength: 50),
                         LicensePlate = c.String(maxLength: 6),
-                        PaymentDate = c.DateTime(nullable: false),
+                        PaymentDate = c.DateTime(),
                         ProcedureType = c.String(maxLength: 50),
                         PolicyPDFURL = c.String(maxLength: 2048),
                         PQRType = c.String(maxLength: 50),

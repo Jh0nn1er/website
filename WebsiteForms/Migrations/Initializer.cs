@@ -57,7 +57,7 @@ namespace WebsiteForms.Migrations
             },
             new RequestType()
             {
-                Name = "Peticiones, quejas y reclamos6",
+                Name = "Peticiones, quejas y reclamos",
             },
         };
         private static readonly List<User> _users = new()

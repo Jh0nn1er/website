@@ -31,7 +31,7 @@ namespace WebsiteForms.Database.Entities
 
         public int? Term { get; set; }
 
-        public DateTime NewPaymentDate { get; set; }
+        public DateTime? NewPaymentDate { get; set; }
 
         [MaxLength(50)]
         public string LossOccuranceType { get; set; }
@@ -42,7 +42,7 @@ namespace WebsiteForms.Database.Entities
         [MaxLength(6)]
         public string LicensePlate { get; set; }
 
-        public DateTime PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
 
         [MaxLength(50)]
         public string ProcedureType { get; set; }
