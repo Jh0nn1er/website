@@ -1,4 +1,4 @@
-﻿using WebsiteForms.Entities;
+﻿using WebsiteForms.Database.Entities;
 using WebsiteForms.Helpers;
 
 namespace WebsiteForms.Migrations

@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using WebsiteForms.Entities;
+using WebsiteForms.Database.Entities;
 
 namespace WebsiteForms.Database
 {
