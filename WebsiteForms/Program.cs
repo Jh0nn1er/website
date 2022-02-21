@@ -4,6 +4,7 @@ using WebsiteForms.Helpers;
 using WebsiteForms.Services.UserService;
 using WebsiteForms.Repositories.UserRepository;
 using WebsiteForms.Repositories.RequestTypesRepository;
+using WebsiteForms.Services.PolicyService;
 
 DotEnv.Load();
 
@@ -34,6 +35,7 @@ builder.Services.AddVersionedApiExplorer(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRequestTypeRepository, RequestTypeRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPolicyService, FileService>();
 
 builder.Services.AddCors();
 
