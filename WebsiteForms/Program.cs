@@ -1,5 +1,9 @@
 using Microsoft.AspNetCore.Mvc.Versioning;
 using dotenv.net;
+using WebsiteForms.Helpers;
+using WebsiteForms.Services.UserService;
+using WebsiteForms.Repositories.UserRepository;
+using WebsiteForms.Repositories.RequestTypesRepository;
 
 DotEnv.Load();
 
@@ -27,6 +31,12 @@ builder.Services.AddVersionedApiExplorer(options =>
 });
 
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRequestTypeRepository, RequestTypeRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,6 +45,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.UseMiddleware<JwtMiddleware>();
 
 app.UseHttpsRedirection();
 
