@@ -52,6 +52,6 @@ namespace WebsiteForms.API.v1.Models.Requests
         public int RequestTypeId { get; set; }
 
         //[FileExtensions(Extensions = ".pdf")]
-        public IFormFile Report { get; set; }
+        public IFormFile Policy { get; set; }
     }
 }
