@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using WebsiteForms.Helpers;
 
 namespace WebsiteForms.API.v1.Models.Requests
 {
@@ -51,7 +52,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         [Required]
         public int RequestTypeId { get; set; }
 
-        //[FileExtensions(Extensions = ".pdf")]
-        public IFormFile Policy { get; set; }
+        [AllowExtensions(".pdf")]
+        public IFormFile? Policy { get; set; }
     }
 }
