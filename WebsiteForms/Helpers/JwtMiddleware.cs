@@ -1,4 +1,4 @@
-﻿using WebsiteForms.Repositories.UserRepository;
+﻿using WebsiteForms.Services.UserService;
 
 namespace WebsiteForms.Helpers
 {
@@ -10,14 +10,14 @@ namespace WebsiteForms.Helpers
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, IUserRepository userRepository)
+        public async Task Invoke(HttpContext context, IUserService userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             var userId = JwtUtils.Verify(token);
 
             if (userId != null)
             {
-                context.Items["User"] = userRepository.GetById(userId.Value);
+                context.Items["User"] = userService.GetById(userId.Value);
             }
 
             await _next(context);
