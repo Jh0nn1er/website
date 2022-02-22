@@ -14,28 +14,6 @@ namespace WebsiteForms.Services.RequestService
         {
             _policyService = policyService;
         }
-        
-        public async Task Create(Request request, IFormFile file, int requestTypeId)
-        {
-            using (var unitOfWork = new UnitOfWork(new WebsiteFormsContext()))
-            using (var transaction = unitOfWork.BeginTransaction())
-            {
-                try
-                {
-                    var requestType = unitOfWork.RequestTypes.GetById(requestTypeId);
-                    request.RequestType = requestType;
-
-                    unitOfWork.Requests.Add(request);
-                    unitOfWork.Save();
-
-                    transaction.Commit();
-                }
-                catch (Exception)
-                {
-                    transaction.Rollback();
-                }
-            }
-        }
 
         public void Add(Request request)
         {
