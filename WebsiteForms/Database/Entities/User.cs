@@ -6,16 +6,11 @@ namespace WebsiteForms.Database.Entities
 {
     public class User : BaseEntity
     {
-        [Key]
-        public int UserID { get; set; }
 
-        [Required]
-        [MaxLength(30)]
-        [Index(IsUnique = true)]
+        [Required, MaxLength(30), Index(IsUnique = true)]
         public string Username { get; set; }
 
-        [Required]
-        [JsonIgnore]
+        [Required, JsonIgnore]
         public string Password { get; set; }
     }
 }

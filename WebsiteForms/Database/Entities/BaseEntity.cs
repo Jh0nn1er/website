@@ -8,8 +8,10 @@ namespace WebsiteForms.Database.Entities
     {
         private DateTime? _createdAt = null;
 
-        [Required]
-        [JsonIgnore]
+        [Key]
+        public int Id { get; set; }
+
+        [Required, JsonIgnore]
         public DateTime CreatedAt {
             get
             {

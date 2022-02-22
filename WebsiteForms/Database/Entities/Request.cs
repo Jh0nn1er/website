@@ -4,23 +4,17 @@ namespace WebsiteForms.Database.Entities
 {
     public class Request : BaseEntity
     {
-        [Key]
-        public int RequestId { get; set; }
 
-        [Required]
-        [MaxLength(100)]
+        [Required, MaxLength(100)]
         public string FullName { get; set; }
 
-        [Required]
-        [MaxLength(13)]
+        [Required, MaxLength(13)]
         public string Identifier { get; set; }
 
-        [Required]
-        [MaxLength(15)]
+        [Required, MaxLength(15)]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required, EmailAddress]
         public string Email { get; set; }
 
         [MaxLength(10)]
@@ -56,8 +50,6 @@ namespace WebsiteForms.Database.Entities
         [MaxLength(50)]
         public string PQRComment { get; set; }
 
-        [Required]
-        public int RequestTypeId { get; set; }
         public virtual RequestType RequestType { get; set; }
     }
 }
