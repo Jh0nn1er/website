@@ -4,7 +4,6 @@ using WebsiteForms.API.v1.Authenticate.Models;
 using WebsiteForms.Services.UserService;
 using WebsiteForms.Authorization;
 using WebsiteForms.Helpers;
-using WebsiteForms.Repositories.UserRepository;
 
 namespace WebsiteForms.API.v1.Controllers
 {
@@ -32,7 +31,7 @@ namespace WebsiteForms.API.v1.Controllers
                     msg = "Username or password incorrect"
                 });
 
-            return Ok(new AuthenticateResponse() { Token = JwtUtils.Generate(user.UserID) });
+            return Ok(new AuthenticateResponse() { Token = JwtUtils.Generate(user.Id) });
         }
     }
 }

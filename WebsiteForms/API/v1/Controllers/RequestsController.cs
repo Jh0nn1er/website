@@ -2,10 +2,8 @@
 using WebsiteForms.API.v1.Models.Requests;
 using WebsiteForms.Authorization;
 using WebsiteForms.Database.Entities;
-using WebsiteForms.Repositories.RequestRepository;
-using WebsiteForms.Repositories.RequestTypesRepository;
-using WebsiteForms.Services.PolicyService;
 using WebsiteForms.Services.RequestService;
+using WebsiteForms.Services.RequestTypeService;
 
 namespace WebsiteForms.API.v1.Controllers
 {
@@ -15,26 +13,30 @@ namespace WebsiteForms.API.v1.Controllers
     [JwtAuthorize]
     public class RequestsController : ControllerBase
     {
-        private readonly IRequestTypeRepository _requestTypeRepository;
         private readonly IRequestService _requestService;
+        private readonly IRequestTypeService _requestTypeService;
 
-        public RequestsController(IRequestTypeRepository requestTypeRepository, IRequestService requestService)
+        public RequestsController(IRequestService requestService, IRequestTypeService requestTypeService)
         {
-            _requestTypeRepository = requestTypeRepository;
             _requestService = requestService;
+            _requestTypeService = requestTypeService;
         }
 
         [HttpGet]
         [Route("types")]
         public IActionResult GetTypes()
         {
-            var requestTypes = _requestTypeRepository.GetAll();
+            var requestTypes = _requestTypeService.GetAll();
             return Ok(requestTypes);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] RequestRequest req)
+        public async Task<IActionResult> Add([FromForm] RequestRequest req)
         {
+            var requestType = _requestTypeService.GetById(req.RequestTypeId);
+            if (requestType == null) return BadRequest();
+
+            string? filePath = req.Policy == null ? null : await _requestService.SaveFile(req.Policy);
             var newRequest = new Request()
             {
                 FullName = req.FullName,
@@ -50,11 +52,13 @@ namespace WebsiteForms.API.v1.Controllers
                 LicensePlate = req.LicensePlate,
                 PaymentDate = req.PaymentDate,
                 ProcedureType = req.ProcedureType,
+                PolicyPDFURL = filePath,
                 PQRType = req.PQRType,
                 PQRComment = req.PQRComment,
-                RequestTypeId = req.RequestTypeId,
+                RequestType = requestType,
             };
-            await _requestService.Create(newRequest, req.Policy);
+
+            _requestService.Add(newRequest);
 
             return NoContent();
         }
