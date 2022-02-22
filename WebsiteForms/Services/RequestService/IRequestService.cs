@@ -4,6 +4,7 @@ namespace WebsiteForms.Services.RequestService
 {
     public interface IRequestService
     {
-        Task Create(Request request, IFormFile file);
+        void Add(Request request);
+        Task<string> SaveFile(IFormFile file);
     }
 }

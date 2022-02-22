@@ -1,33 +1,71 @@
-﻿using WebsiteForms.Database;
+﻿using WebsiteForms.API.v1.Models.Requests;
+using WebsiteForms.Database;
 using WebsiteForms.Database.Entities;
-using WebsiteForms.Repositories.RequestRepository;
+using WebsiteForms.Repositories;
 using WebsiteForms.Services.PolicyService;
 
 namespace WebsiteForms.Services.RequestService
 {
     public class RequestService : IRequestService
     {
-        private readonly IRequestRepository _requestRepository;
         private readonly IPolicyService _policyService;
 
-        public RequestService(IRequestRepository requestRepository, IPolicyService policyService)
+        public RequestService(IPolicyService policyService)
         {
-            _requestRepository = requestRepository;
             _policyService = policyService;
         }
         
-        public async Task Create(Request request, IFormFile file)
+        public async Task Create(Request request, IFormFile file, int requestTypeId)
         {
-            string name = request.FullName.Replace(" ", "_").ToUpper();
-            string date = DateTime.Now.ToString("ddMMyyyy-HH.mm.ss.fff"); 
+            using (var unitOfWork = new UnitOfWork(new WebsiteFormsContext()))
+            using (var transaction = unitOfWork.BeginTransaction())
+            {
+                try
+                {
+                    var requestType = unitOfWork.RequestTypes.GetById(requestTypeId);
+                    request.RequestType = requestType;
+
+                    unitOfWork.Requests.Add(request);
+                    unitOfWork.Save();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
+
+        public void Add(Request request)
+        {
+            using (var unitOfWork = new UnitOfWork(new WebsiteFormsContext()))
+            using (var transaction = unitOfWork.BeginTransaction())
+            {
+                try
+                {
+                    var requestType = unitOfWork.RequestTypes.GetById(request.RequestType.Id);
+                    request.RequestType = requestType;
+
+                    unitOfWork.Requests.Add(request);
+                    unitOfWork.Save();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
+
+        public async Task<string> SaveFile(IFormFile file)
+        {
+            string name = Guid.NewGuid().ToString();
             string ext = Path.GetExtension(file.FileName);
+            string fileName = $"{name}{ext}";
 
-            var fileName = $"{name}_POLIZA_{date}{ext}";
-
-            string filePath = await _policyService.Save(file, fileName);
-            request.PolicyPDFURL = filePath;
-
-            _requestRepository.Create(request);
+            return await _policyService.Save(file, fileName);
         }
     }
 }
