@@ -25,9 +25,14 @@ namespace WebsiteForms
         public AppSettings()
         {
             string projectDirectory = Path.GetFullPath(".\\");
-            string dotenvPath = Path.Combine(projectDirectory, ".env");
 
-            DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { dotenvPath })) ;
+            var envFilePaths = new string[]
+            {
+                Path.Combine(projectDirectory, ".env"),
+                Path.Combine(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..")), ".env")
+            };
+
+            DotEnv.Load(options: new DotEnvOptions(envFilePaths: envFilePaths)) ;
 
             RootPath = projectDirectory;
 
