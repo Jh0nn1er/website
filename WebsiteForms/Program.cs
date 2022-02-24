@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc.Versioning;
-using dotenv.net;
 using WebsiteForms.Helpers;
 using WebsiteForms.Services.UserService;
 using WebsiteForms.Services.PolicyService;
@@ -9,13 +8,11 @@ using WebsiteForms.Repositories.Contracts;
 using WebsiteForms.Repositories;
 using WebsiteForms.Database;
 using System.Data.Entity;
-
-DotEnv.Load();
+using WebsiteForms;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -35,16 +32,18 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
+var services = builder.Services;
 
-builder.Services.AddSingleton<IUnitOfWork>(x => new UnitOfWork(new WebsiteFormsContext()));
+services.AddSingleton<IUnitOfWork>(x => new UnitOfWork(new WebsiteFormsContext()));
 
-builder.Services.AddScoped<DbContext, WebsiteFormsContext>();
-builder.Services.AddScoped<IRequestService, RequestService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRequestTypeService, RequestTypeService>();
-builder.Services.AddScoped<IPolicyService, FileService>();
+services.AddTransient<AppSettings, AppSettings>();
+services.AddTransient<JwtUtils>();
 
-builder.Services.AddCors();
+services.AddScoped<DbContext, WebsiteFormsContext>();
+services.AddScoped<IRequestService, RequestService>();
+services.AddScoped<IUserService, UserService>();
+services.AddScoped<IRequestTypeService, RequestTypeService>();
+services.AddScoped<IPolicyService, FileService>();
 
 var app = builder.Build();
 
@@ -53,8 +52,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.UseMiddleware<JwtMiddleware>();
 

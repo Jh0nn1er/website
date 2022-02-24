@@ -2,14 +2,10 @@
 {
     public class FileService : IPolicyService
     {
-        private readonly string _path;
-        public FileService(string path = null)
+        private string _path;
+        public FileService(AppSettings appSettings)
         {
-            var basePath = path ?? Environment.GetEnvironmentVariable("BASE_PATH");
-            if (basePath == null)
-                throw new Exception("Base path is required to save files");
-
-            _path = basePath;
+            _path = appSettings.FilesPath;
         }
 
         public async Task<string> Save(IFormFile file, string fileName = null)
