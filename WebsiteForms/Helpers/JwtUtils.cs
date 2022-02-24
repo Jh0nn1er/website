@@ -5,21 +5,29 @@ using System.Text;
 
 namespace WebsiteForms.Helpers
 {
-    public static class JwtUtils
+    public class JwtUtils
     {
-        private static string Secretkey { get => Environment.GetEnvironmentVariable("SECRET_KEY"); }
-        private static string AudienceToken { get => Environment.GetEnvironmentVariable("AUDIENCE_TOKEN"); }
-        private static string IssuerToken { get => Environment.GetEnvironmentVariable("ISSUER_TOKEN"); }
-        private static string ExpireTime { get => Environment.GetEnvironmentVariable("EXPIRE_TOKEN_MINUTES"); }
+        private string Secretkey { get; set; }
+        private string AudienceToken { get; set; }
+        private string IssuerToken { get; set; }
+        private double ExpireTime { get; set; }
 
-        public static string Generate(int id)
+        public JwtUtils(AppSettings appSettings)
+        {
+            Secretkey = appSettings.SecretKey;
+            AudienceToken = appSettings.AudienceToken;
+            IssuerToken = appSettings.IssuerToken;
+            ExpireTime = appSettings.ExpireTokenMinutes;
+        }
+
+        public string Generate(int id)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Secretkey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", id.ToString()) }),
-                Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(ExpireTime)),
+                Expires = DateTime.UtcNow.AddMinutes(ExpireTime),
                 Issuer = IssuerToken,
                 Audience = AudienceToken,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -29,10 +37,9 @@ namespace WebsiteForms.Helpers
             return tokenHandler.WriteToken(token);
         }
 
-        public static int? Verify(string token)
+        public int? Verify(string token)
         {
-            if (token == null)
-                return null;
+            if (token == null) return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Secretkey);
@@ -54,7 +61,7 @@ namespace WebsiteForms.Helpers
 
                 return userId;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }

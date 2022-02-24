@@ -14,9 +14,11 @@ namespace WebsiteForms.API.v1.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UsersController(IUserService userService)
+        private readonly JwtUtils _jwtUtils;
+        public UsersController(IUserService userService, JwtUtils jwtUtils)
         {
             _userService = userService;
+            _jwtUtils = jwtUtils;
         }
 
         [HttpPost]
@@ -31,7 +33,7 @@ namespace WebsiteForms.API.v1.Controllers
                     msg = "Username or password incorrect"
                 });
 
-            return Ok(new AuthenticateResponse() { Token = JwtUtils.Generate(user.Id) });
+            return Ok(new AuthenticateResponse() { Token = _jwtUtils.Generate(user.Id) });
         }
     }
 }
