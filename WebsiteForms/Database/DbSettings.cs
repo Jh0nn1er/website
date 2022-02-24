@@ -7,10 +7,6 @@ namespace WebsiteForms.Database
         private static readonly AppSettings _appSettings = new();
         public static string GetConnectionString()
         {
-            Debugger.Launch();
-            AppSettings _appSettings = new();
-
-
             string server = _appSettings.DbServer;
             string database = _appSettings.DbName;
             string user = _appSettings.DbUser;
