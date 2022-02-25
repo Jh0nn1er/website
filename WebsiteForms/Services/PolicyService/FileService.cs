@@ -20,5 +20,11 @@
 
             return filePath;
         }
+
+        public FileStream Get(string path)
+        {
+            var stream = new FileStream(path, FileMode.Open);
+            return stream;
+        }
     }
 }
