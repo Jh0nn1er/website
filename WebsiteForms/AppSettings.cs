@@ -9,6 +9,12 @@ namespace WebsiteForms
         private const string DEFAULT_AUDIENCE = "localhost";
         private const string DEFAULT_ISSUER = "localhost";
         private const string DEFAULT_EXPIRE_TOKEN_MINUTES = "30";
+        private const string DEFAULT_FILES_FOLDER = "Temp";
+        private const string DEFAULT_DB_SERVER = "(localdb)\\MSSqlLocalDb";
+        private const string DEFAULT_DB_NAME = "WebsiteForms";
+        private const string DEFAULT_DB_USER = "";
+        private const string DEFAULT_DB_PASSWORD = "";
+        private const string DEFAULT_DB_INTEGRATED_SECURITY = "True";
 
         public string SecretKey { get; private set; }
         public string AudienceToken { get; private set; }
@@ -41,13 +47,13 @@ namespace WebsiteForms
             IssuerToken = Environment.GetEnvironmentVariable("ISSUER_TOKEN") ?? DEFAULT_ISSUER;
             ExpireTokenMinutes = double.Parse(Environment.GetEnvironmentVariable("EXPIRE_TOKEN_MINUTES") ?? DEFAULT_EXPIRE_TOKEN_MINUTES);
 
-            FilesPath = Environment.GetEnvironmentVariable("FILES_BASE_PATH") ?? Path.Combine(projectDirectory, "Temp");
+            FilesPath = Environment.GetEnvironmentVariable("FILES_BASE_PATH") ?? Path.Combine(projectDirectory, DEFAULT_FILES_FOLDER);
 
-            DbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "(localdb)\\MSSqlLocalDb";
-            DbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "WebsiteForms";
-            DbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "";
-            DbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
-            DbIntegratedSecuryty = bool.Parse(Environment.GetEnvironmentVariable("DB_INTEGRATED_SECURITY") ?? "true").ToString();
+            DbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? DEFAULT_DB_SERVER;
+            DbName = Environment.GetEnvironmentVariable("DB_NAME") ?? DEFAULT_DB_NAME;
+            DbUser = Environment.GetEnvironmentVariable("DB_USER") ?? DEFAULT_DB_USER;
+            DbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? DEFAULT_DB_PASSWORD;
+            DbIntegratedSecuryty = bool.Parse(Environment.GetEnvironmentVariable("DB_INTEGRATED_SECURITY") ?? DEFAULT_DB_INTEGRATED_SECURITY).ToString();
         }
     }
 }
