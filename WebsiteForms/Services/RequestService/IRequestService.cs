@@ -4,9 +4,9 @@ namespace WebsiteForms.Services.RequestService
 {
     public interface IRequestService
     {
-        void Add(Request request);
+        bool Add(Request request);
         Task<string> SaveFile(IFormFile file);
-
+        Task<bool> AddWithFile(Request request, IFormFile file);
         FileStream? GetFileByRoute(string route);
         FileStream? GetFileById(int id);
     }

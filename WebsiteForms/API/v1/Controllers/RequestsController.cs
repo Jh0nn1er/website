@@ -46,7 +46,6 @@ namespace WebsiteForms.API.v1.Controllers
             var requestType = _requestTypeService.GetById(req.RequestTypeId);
             if (requestType == null) return BadRequest();
 
-            string? filePath = req.Policy == null ? null : await _requestService.SaveFile(req.Policy);
             var newRequest = new Request()
             {
                 FullName = req.FullName,
@@ -62,15 +61,18 @@ namespace WebsiteForms.API.v1.Controllers
                 LicensePlate = req.LicensePlate,
                 PaymentDate = req.PaymentDate,
                 ProcedureType = req.ProcedureType,
-                PolicyPDFURL = filePath,
                 PQRType = req.PQRType,
                 PQRComment = req.PQRComment,
                 RequestType = requestType,
             };
+            bool result;
 
-            _requestService.Add(newRequest);
+            if(req.Policy != null) result = await _requestService.AddWithFile(newRequest, req.Policy);
+            else result = _requestService.Add(newRequest);
 
-            return NoContent();
+            if (result) return Ok();
+
+            return StatusCode(500);
         }
     }
 }

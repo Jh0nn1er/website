@@ -9,16 +9,31 @@ namespace WebsiteForms.Services.RequestService
 {
     public class RequestService : IRequestService
     {
+        private readonly AppSettings _appSettings;
         private readonly IPolicyService _policyService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public RequestService(IUnitOfWork unitOfWork, IPolicyService policyService)
+        public RequestService(AppSettings appSettings, IUnitOfWork unitOfWork, IPolicyService policyService)
         {
+            _appSettings = appSettings;
             _unitOfWork = unitOfWork;
             _policyService = policyService;
         }
+        public FileStream? GetFileById(int id)
+        {
+            var route = _unitOfWork.Requests.GetById(id)?.PolicyPDFURL;
+            if (route == null) return null;
 
-        public void Add(Request request)
+            return GetFileByRoute(route);
+        }
+        public FileStream? GetFileByRoute(string route)
+        {
+            var absolutePath = route.Replace("~", _appSettings.RootPath);
+            var fileStream = _policyService.Get(absolutePath);
+
+            return fileStream;
+        }
+        public bool Add(Request request)
         {
             using var transaction = _unitOfWork.BeginTransaction();
             try
@@ -30,27 +45,23 @@ namespace WebsiteForms.Services.RequestService
                 _unitOfWork.Save();
 
                 transaction.Commit();
+
+                return true;
             }
             catch (Exception)
             {
                 transaction.Rollback();
+                return false;
             }
         }
 
-        public FileStream? GetFileById(int id)
+        public async Task<bool> AddWithFile(Request request, IFormFile file)
         {
-            var route = _unitOfWork.Requests.GetById(id)?.PolicyPDFURL;
-            if (route == null) return null;
+            string savedPath = await SaveFile(file);
+            string relativePath = savedPath.Replace(_appSettings.RootPath, "~");
 
-            var fileStream = _policyService.Get(route);
-            return fileStream;
-        }
-
-        public FileStream? GetFileByRoute(string route)
-        {
-            var fileStream = _policyService.Get(route);
-
-            return fileStream;
+            request.PolicyPDFURL = relativePath;
+            return Add(request);
         }
 
         public async Task<string> SaveFile(IFormFile file)
