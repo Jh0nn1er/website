@@ -30,6 +30,16 @@ namespace WebsiteForms.API.v1.Controllers
             return Ok(requestTypes);
         }
 
+        [HttpGet]
+        [Route("{id:int}/file")]
+        public IActionResult GetFile(int id)
+        {
+            var stream = _requestService.GetFileById(id);
+            if(stream == null) return NotFound();
+
+            return new FileStreamResult(stream, "application/pdf");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add([FromForm] RequestRequest req)
         {
