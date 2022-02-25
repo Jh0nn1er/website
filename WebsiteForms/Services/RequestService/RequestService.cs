@@ -58,9 +58,9 @@ namespace WebsiteForms.Services.RequestService
         public async Task<bool> AddWithFile(Request request, IFormFile file)
         {
             string savedPath = await SaveFile(file);
-            string relativePath = savedPath.Replace(_appSettings.RootPath, "~");
+            string dbPath = savedPath.Replace(_appSettings.RootPath, $"~{Path.DirectorySeparatorChar}");
 
-            request.PolicyPDFURL = relativePath;
+            request.PolicyPDFURL = dbPath;
             return Add(request);
         }
 
