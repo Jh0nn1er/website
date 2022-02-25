@@ -40,7 +40,8 @@ namespace WebsiteForms
             AudienceToken = Environment.GetEnvironmentVariable("AUDIENCE_TOKEN") ?? DEFAULT_AUDIENCE;
             IssuerToken = Environment.GetEnvironmentVariable("ISSUER_TOKEN") ?? DEFAULT_ISSUER;
             ExpireTokenMinutes = double.Parse(Environment.GetEnvironmentVariable("EXPIRE_TOKEN_MINUTES") ?? DEFAULT_EXPIRE_TOKEN_MINUTES);
-            FilesPath = Environment.GetEnvironmentVariable("FILES_BASE_PATH");
+
+            FilesPath = Environment.GetEnvironmentVariable("FILES_BASE_PATH") ?? Path.Combine(projectDirectory, "Temp");
 
             DbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "(localdb)\\MSSqlLocalDb";
             DbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "WebsiteForms";
