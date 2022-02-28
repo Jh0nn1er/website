@@ -44,7 +44,15 @@ namespace WebsiteForms.API.v1.Controllers
         public async Task<IActionResult> Add([FromForm] RequestRequest req)
         {
             var requestType = _requestTypeService.GetById(req.RequestTypeId);
-            if (requestType == null) return BadRequest();
+            if (requestType == null)
+            {
+                Dictionary<string, string[]> Errors = new();
+                Errors.Add("RequestTypeId", new string[] {
+                    "The RequestTypeId field is not a valid ID"
+                });
+
+                return BadRequest(new { Errors });
+            }
 
             var newRequest = new Request()
             {
@@ -65,12 +73,12 @@ namespace WebsiteForms.API.v1.Controllers
                 PQRComment = req.PQRComment,
                 RequestType = requestType,
             };
-            bool result;
+            int? insertedId;
 
-            if(req.Policy != null) result = await _requestService.AddWithFile(newRequest, req.Policy);
-            else result = _requestService.Add(newRequest);
+            if(req.Policy != null) insertedId = await _requestService.AddWithFile(newRequest, req.Policy);
+            else insertedId = _requestService.Add(newRequest);
 
-            if (result) return Ok();
+            if (insertedId != null) return Ok(new { id = insertedId });
 
             return StatusCode(500);
         }
