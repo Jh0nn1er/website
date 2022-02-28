@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using WebsiteForms.API.v1.Models.Requests;
 using WebsiteForms.Authorization;
 using WebsiteForms.Database.Entities;
@@ -37,7 +38,8 @@ namespace WebsiteForms.API.v1.Controllers
             var stream = _requestService.GetFileById(id);
             if(stream == null) return NotFound();
 
-            return new FileStreamResult(stream, "application/pdf");
+            new FileExtensionContentTypeProvider().TryGetContentType(stream.Name, out string? contentType);
+            return new FileStreamResult(stream, contentType ?? "application/octet-stream");
         }
 
         [HttpPost]
