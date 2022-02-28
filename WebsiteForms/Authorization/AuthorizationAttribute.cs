@@ -6,7 +6,7 @@ using WebsiteForms.Database.Entities;
 namespace WebsiteForms.Authorization
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class JwtAuthorizeAttribute : Attribute, IAuthorizationFilter
+    public class AuthorizationAttribute : Attribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {

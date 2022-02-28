@@ -10,7 +10,7 @@ namespace WebsiteForms.API.v1.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
-    [JwtAuthorize]
+    [Authorization]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
