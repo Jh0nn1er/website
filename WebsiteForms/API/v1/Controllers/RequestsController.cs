@@ -80,7 +80,8 @@ namespace WebsiteForms.API.v1.Controllers
             if(req.Policy != null) insertedId = await _requestService.AddWithFile(newRequest, req.Policy);
             else insertedId = _requestService.Add(newRequest);
 
-            if (insertedId != null) return Ok(new { id = insertedId });
+            string uri = $"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{insertedId}";
+            if (insertedId != null) return Created(uri, null);
 
             return StatusCode(500);
         }
