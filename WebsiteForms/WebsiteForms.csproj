@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Files\**" />
+    <Compile Remove="Temp\**" />
+    <Content Remove="Files\**" />
+    <Content Remove="Temp\**" />
+    <EmbeddedResource Remove="Files\**" />
+    <EmbeddedResource Remove="Temp\**" />
+    <None Remove="Files\**" />
+    <None Remove="Temp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="dotenv.net" Version="3.1.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />

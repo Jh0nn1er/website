@@ -9,7 +9,7 @@ namespace WebsiteForms
         private const string DEFAULT_AUDIENCE = "localhost";
         private const string DEFAULT_ISSUER = "localhost";
         private const string DEFAULT_EXPIRE_TOKEN_MINUTES = "30";
-        private const string DEFAULT_FILES_FOLDER = "Temp";
+        private const string DEFAULT_FILES_FOLDER = "Files";
         private const string DEFAULT_DB_SERVER = "(localdb)\\MSSqlLocalDb";
         private const string DEFAULT_DB_NAME = "WebsiteForms";
         private const string DEFAULT_DB_USER = "";

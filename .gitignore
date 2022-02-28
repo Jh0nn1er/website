@@ -10,4 +10,5 @@ obj
 
 # Temporal files
 /**/Temp
+/**/Files
 *.pdf
