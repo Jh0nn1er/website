@@ -33,7 +33,7 @@ namespace WebsiteForms.Services.RequestService
 
             return fileStream;
         }
-        public bool Add(Request request)
+        public int? Add(Request request)
         {
             using var transaction = _unitOfWork.BeginTransaction();
             try
@@ -46,16 +46,16 @@ namespace WebsiteForms.Services.RequestService
 
                 transaction.Commit();
 
-                return true;
+                return request.Id;
             }
             catch (Exception)
             {
                 transaction.Rollback();
-                return false;
+                return null;
             }
         }
 
-        public async Task<bool> AddWithFile(Request request, IFormFile file)
+        public async Task<int?> AddWithFile(Request request, IFormFile file)
         {
             string savedPath = await SaveFile(file);
             string dbPath = savedPath.Replace(_appSettings.RootPath, $"~{Path.DirectorySeparatorChar}");
