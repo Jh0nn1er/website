@@ -73,6 +73,7 @@ namespace WebsiteForms.API.v1.Controllers
                 ProcedureType = req.ProcedureType,
                 PQRType = req.PQRType,
                 PQRComment = req.PQRComment,
+                PersonalDataProcessingAuthorization = req.PersonalDataProcessingAuthorization,
                 RequestType = requestType,
             };
             int? insertedId;

@@ -52,6 +52,8 @@ namespace WebsiteForms.API.v1.Models.Requests
         [Required]
         public int RequestTypeId { get; set; }
 
+        public bool? PersonalDataProcessingAuthorization { get; set; }
+
         [AllowExtensions(".pdf")]
         public IFormFile? Policy { get; set; }
     }

@@ -50,6 +50,8 @@ namespace WebsiteForms.Database.Entities
         [MaxLength(50)]
         public string PQRComment { get; set; }
 
+        public bool? PersonalDataProcessingAuthorization { get; set; }
+
         public virtual RequestType RequestType { get; set; }
     }
 }
