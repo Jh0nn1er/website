@@ -12,14 +12,7 @@ namespace WebsiteForms.Database.Entities
         public int Id { get; set; }
 
         [Required, JsonIgnore]
-        public DateTime CreatedAt {
-            get
-            {
-                return _createdAt.HasValue
-                ? _createdAt.Value
-                : DateTime.Now;
-            }
-            set { _createdAt = value; }
-        }
+        public DateTime CreatedAt { get; set; }
+        
     }
 }
