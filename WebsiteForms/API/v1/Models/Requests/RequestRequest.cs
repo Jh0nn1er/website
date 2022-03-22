@@ -10,8 +10,8 @@ namespace WebsiteForms.API.v1.Models.Requests
         [Required, MaxLength(100)]
         public string FullName { get; set; }
 
-        [Required, MaxLength(13)]
-        public string Identifier { get; set; }
+        [MaxLength(13)]
+        public string? Identifier { get; set; }
 
         [Required, MaxLength(15)]
         public string PhoneNumber { get; set; }
