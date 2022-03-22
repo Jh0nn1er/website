@@ -51,6 +51,14 @@ namespace WebsiteForms.Database.Entities
         public string Comment { get; set; }
 
         public bool? PersonalDataProcessingAuthorization { get; set; }
+        
+        public short? Age { get; set; }
+
+        [MaxLength(30)]
+        public string? Position { get; set; }
+
+        [MaxLength(30)]
+        public string? LastAcademicLevel { get; set; }
 
         public virtual RequestType RequestType { get; set; }
     }

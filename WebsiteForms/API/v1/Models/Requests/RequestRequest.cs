@@ -56,5 +56,13 @@ namespace WebsiteForms.API.v1.Models.Requests
 
         [AllowExtensions(".pdf")]
         public IFormFile? File { get; set; }
+
+        public short? Age { get; set; }
+
+        [MaxLength(30)]
+        public string? Position { get; set; }
+
+        [MaxLength(30)]
+        public string? LastAcademicLevel { get; set; }
     }
 }

@@ -76,6 +76,9 @@ namespace WebsiteForms.API.v1.Controllers
                 CreatedAt = DateTime.Now,
                 PersonalDataProcessingAuthorization = req.PersonalDataProcessingAuthorization,
                 RequestType = requestType,
+                Age = req.Age,
+                Position = req.Position,
+                LastAcademicLevel = req.LastAcademicLevel,
             };
             int? insertedId;
 
