@@ -21,7 +21,7 @@ namespace WebsiteForms.Services.RequestService
         }
         public FileStream? GetFileById(int id)
         {
-            var route = _unitOfWork.Requests.GetById(id)?.PolicyPDFURL;
+            var route = _unitOfWork.Requests.GetById(id)?.FileURL;
             if (route == null) return null;
 
             return GetFileByRoute(route);
@@ -60,7 +60,7 @@ namespace WebsiteForms.Services.RequestService
             string savedPath = await SaveFile(file);
             string dbPath = savedPath.Replace(_appSettings.RootPath, $"~{Path.DirectorySeparatorChar}");
 
-            request.PolicyPDFURL = dbPath;
+            request.FileURL = dbPath;
             return Add(request);
         }
 

@@ -8,8 +8,8 @@ namespace WebsiteForms.Database.Entities
         [Required, MaxLength(100)]
         public string FullName { get; set; }
 
-        [Required, MaxLength(13)]
-        public string Identifier { get; set; }
+        [MaxLength(13)]
+        public string? Identifier { get; set; }
 
         [Required, MaxLength(15)]
         public string PhoneNumber { get; set; }
@@ -42,13 +42,13 @@ namespace WebsiteForms.Database.Entities
         public string ProcedureType { get; set; }
 
         [MaxLength(2048)]
-        public string PolicyPDFURL { get; set; }
+        public string FileURL { get; set; }
 
         [MaxLength(50)]
         public string PQRType { get; set; }
 
         [MaxLength(50)]
-        public string PQRComment { get; set; }
+        public string Comment { get; set; }
 
         public bool? PersonalDataProcessingAuthorization { get; set; }
 

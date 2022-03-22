@@ -72,14 +72,14 @@ namespace WebsiteForms.API.v1.Controllers
                 PaymentDate = req.PaymentDate,
                 ProcedureType = req.ProcedureType,
                 PQRType = req.PQRType,
-                PQRComment = req.PQRComment,
+                Comment = req.Comment,
                 CreatedAt = DateTime.Now,
                 PersonalDataProcessingAuthorization = req.PersonalDataProcessingAuthorization,
                 RequestType = requestType,
             };
             int? insertedId;
 
-            if(req.Policy != null) insertedId = await _requestService.AddWithFile(newRequest, req.Policy);
+            if(req.File != null) insertedId = await _requestService.AddWithFile(newRequest, req.File);
             else insertedId = _requestService.Add(newRequest);
 
             string uri = $"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{insertedId}";

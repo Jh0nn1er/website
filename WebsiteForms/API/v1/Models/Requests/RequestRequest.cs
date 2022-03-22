@@ -47,7 +47,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         public string? PQRType { get; set; }
 
         [MaxLength(50)]
-        public string? PQRComment { get; set; }
+        public string? Comment { get; set; }
 
         [Required]
         public int RequestTypeId { get; set; }
@@ -55,6 +55,6 @@ namespace WebsiteForms.API.v1.Models.Requests
         public bool? PersonalDataProcessingAuthorization { get; set; }
 
         [AllowExtensions(".pdf")]
-        public IFormFile? Policy { get; set; }
+        public IFormFile? File { get; set; }
     }
 }
