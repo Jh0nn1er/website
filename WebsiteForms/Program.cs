@@ -56,9 +56,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(x => x
-    .AllowAnyOrigin()
     .AllowAnyMethod()
-    .AllowAnyHeader());
+    .AllowAnyHeader()
+    .WithOrigins("https://www.finanzauto.com.co"));
 
 app.UseMiddleware<JwtMiddleware>();
 
