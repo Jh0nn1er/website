@@ -45,7 +45,16 @@ namespace WebsiteForms.API.v1.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromForm] RequestRequest req)
         {
-            var requestType = _requestTypeService.GetById(req.RequestTypeId);
+            if(req.RequestTypeId == null)
+            {
+                Dictionary<string, string[]> Errors = new();
+                Errors.Add("RequestTypeId", new string[] {
+                    "The RequestTypeId field cannot be null"
+                });
+
+                return BadRequest(new { Errors });
+            }
+            var requestType = _requestTypeService.GetById((int)req.RequestTypeId);
             if (requestType == null)
             {
                 Dictionary<string, string[]> Errors = new();

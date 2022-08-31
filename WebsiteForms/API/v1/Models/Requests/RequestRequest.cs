@@ -50,7 +50,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         public string? Comment { get; set; }
 
         [Required]
-        public int RequestTypeId { get; set; }
+        public int? RequestTypeId { get; set; }
 
         public bool? PersonalDataProcessingAuthorization { get; set; }
 
