@@ -7,3 +7,8 @@ obj
 
 # Environment
 .env
+
+# Temporal files
+/**/Temp
+/**/Files
+*.pdf
