@@ -95,7 +95,7 @@ namespace WebsiteForms.API.v1.Controllers
             else insertedId = _requestService.Add(newRequest);
 
             string uri = $"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{insertedId}";
-            if (insertedId != null) return Created(uri, null);
+            if (insertedId != null) return Created(uri, new { id = insertedId });
 
             return StatusCode(500);
         }
