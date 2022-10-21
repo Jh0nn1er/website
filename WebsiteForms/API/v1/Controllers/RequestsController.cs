@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using WebsiteForms.API.v1.Models.Requests;
 using WebsiteForms.Authorization;
@@ -31,6 +32,7 @@ namespace WebsiteForms.API.v1.Controllers
             return Ok(requestTypes);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("{id:int}/file")]
         public IActionResult GetFile(int id)
