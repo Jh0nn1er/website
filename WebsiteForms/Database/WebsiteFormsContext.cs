@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using WebsiteForms.Database.Entities;
+using WebsiteForms.Loging.Models;
 
 namespace WebsiteForms.Database
 {
@@ -14,5 +15,6 @@ namespace WebsiteForms.Database
         public virtual DbSet<Request> Requests { get; set; }
 
         public virtual DbSet<User> Users { get; set; }
+        public DbSet<Log> Log { get; set; }
     }
 }
