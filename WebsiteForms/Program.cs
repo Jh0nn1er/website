@@ -9,10 +9,14 @@ using WebsiteForms.Repositories;
 using WebsiteForms.Database;
 using System.Data.Entity;
 using WebsiteForms;
+using WebsiteForms.Loging;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Logging.AddDbLogger(options => {
+    builder.Configuration.GetSection("Logging").GetSection("CustomLogging").GetSection("Options").Bind(options);
+    });
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
