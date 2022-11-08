@@ -7,6 +7,8 @@ namespace WebsiteForms.Database.Entities
 
         [Required, MaxLength(100)]
         public string FullName { get; set; }
+        [MaxLength(25)]
+        public string DocumentType { get; set; }
 
         [MaxLength(13)]
         public string? Identifier { get; set; }
@@ -47,7 +49,7 @@ namespace WebsiteForms.Database.Entities
         [MaxLength(50)]
         public string PQRType { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(8000)]
         public string Comment { get; set; }
 
         public bool? PersonalDataProcessingAuthorization { get; set; }
@@ -59,6 +61,8 @@ namespace WebsiteForms.Database.Entities
 
         [MaxLength(30)]
         public string? LastAcademicLevel { get; set; }
+        [MaxLength(50)]
+        public string? EconomicActivity { get; set; }
 
         public virtual RequestType RequestType { get; set; }
     }
