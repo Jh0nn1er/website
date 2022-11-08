@@ -72,5 +72,24 @@ namespace WebsiteForms.Services.RequestService
 
             return await _policyService.Save(file, fileName);
         }
+
+        public int? AddWithHabeasData(HabeasData habeasData)
+        {
+            using var transaction = _unitOfWork.BeginTransaction();
+            try 
+            {
+                _unitOfWork.HabeasData.Add(habeasData);
+                _unitOfWork.Save();
+
+                transaction.Commit();
+
+                return habeasData.Id;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                return null;
+            }
+        }
     }
 }

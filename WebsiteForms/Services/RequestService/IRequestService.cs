@@ -9,5 +9,6 @@ namespace WebsiteForms.Services.RequestService
         Task<int?> AddWithFile(Request request, IFormFile file);
         FileStream? GetFileByRoute(string route);
         FileStream? GetFileById(int id);
+        int? AddWithHabeasData(HabeasData habeasData);
     }
 }
