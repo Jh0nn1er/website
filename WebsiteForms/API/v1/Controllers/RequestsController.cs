@@ -92,11 +92,32 @@ namespace WebsiteForms.API.v1.Controllers
                 Age = req.Age,
                 Position = req.Position,
                 LastAcademicLevel = req.LastAcademicLevel,
+                DocumentType = req.DocumentType,
+                EconomicActivity = req.EconomicActivity,
             };
+
+
             int? insertedId;
 
             if(req.File != null) insertedId = await _requestService.AddWithFile(newRequest, req.File);
             else insertedId = _requestService.Add(newRequest);
+            if(req.RequestTypeId == 17){
+                var habeasData = new HabeasData
+                {
+                    SQRType = req.SQRType,
+                    LandLine = req.LandLine,
+                    DeleteOfComercialBases = req.DeleteOfComercialBases,
+                    DeleteOfCampaignBases = req.DeleteOfCampaignBases,
+                    DeleteOfEventBases = req.DeleteOfEventBases,
+                    Reason = req.Reason,
+                    EmailNotification = req.EmailNotification,
+                    AddressNotification = req.AddressNotification,
+                    CellPhoneNotification = req.CellPhoneNotification,
+                    Request = newRequest,
+                };
+
+                _requestService.AddWithHabeasData(habeasData);
+            }
 
             string uri = $"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{insertedId}";
             if (insertedId != null) return Created(uri, new { id = insertedId });
