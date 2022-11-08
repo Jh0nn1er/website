@@ -7,5 +7,6 @@
         IUserRepository Users { get; }
         IRequestRepository Requests { get; }
         IRequestTypeRepository RequestTypes { get; }
+        IHabeasDataRepository HabeasData { get; }
     }
 }
