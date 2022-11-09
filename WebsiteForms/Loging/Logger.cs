@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Data.SqlClient;
+using WebsiteForms.Database;
 
 namespace WebsiteForms.Loging
 {
@@ -103,7 +104,7 @@ namespace WebsiteForms.Loging
         }
         private void InsertLog(string data)
         {
-            using (SqlConnection openCon = new SqlConnection(_provider.Options.ConnectionString))
+            using (SqlConnection openCon = new SqlConnection(DbSettings.GetConnectionString()))
             {
                 string saveLog = "INSERT INTO Logs (JsonData, CreatedBy, CreatedAt) VALUES (@data, @createdBy, @createdAt)";
 
