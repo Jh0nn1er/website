@@ -61,7 +61,7 @@ namespace WebsiteForms.Database.Entities
 
         [MaxLength(30)]
         public string? LastAcademicLevel { get; set; }
-        [MaxLength(50)]
+        [MaxLength(200)]
         public string? EconomicActivity { get; set; }
 
         public virtual RequestType RequestType { get; set; }
