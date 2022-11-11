@@ -17,5 +17,6 @@ namespace WebsiteForms.Database
         public virtual DbSet<User> Users { get; set; }
         public DbSet<Log> Log { get; set; }
         public DbSet<HabeasData> HabeasData { get; set; }
+        public DbSet<Configuration> Configurations { get; set; }
     }
 }
