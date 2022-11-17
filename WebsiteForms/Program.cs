@@ -10,6 +10,7 @@ using WebsiteForms.Database;
 using System.Data.Entity;
 using WebsiteForms;
 using WebsiteForms.Loging;
+using WebsiteForms.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,7 @@ services.AddScoped<IRequestService, RequestService>();
 services.AddScoped<IUserService, UserService>();
 services.AddScoped<IRequestTypeService, RequestTypeService>();
 services.AddScoped<IPolicyService, FileService>();
+services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 
@@ -62,7 +64,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .WithOrigins("https://www.finanzauto.com.co"));
+    .AllowAnyOrigin());
 
 app.UseMiddleware<JwtMiddleware>();
 
