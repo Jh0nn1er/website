@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.StaticFiles;
 using WebsiteForms.API.v1.Models.Requests;
 using WebsiteForms.Authorization;
 using WebsiteForms.Database.Entities;
+using WebsiteForms.Models.Services.Email;
+using WebsiteForms.Services.EmailService;
 using WebsiteForms.Services.RequestService;
 using WebsiteForms.Services.RequestTypeService;
 
@@ -19,11 +21,13 @@ namespace WebsiteForms.API.v1.Controllers
     {
         private readonly IRequestService _requestService;
         private readonly IRequestTypeService _requestTypeService;
+        private readonly IEmailService _emailService;
 
-        public RequestsController(IRequestService requestService, IRequestTypeService requestTypeService)
+        public RequestsController(IRequestService requestService, IRequestTypeService requestTypeService, IEmailService emailService)
         {
             _requestService = requestService;
             _requestTypeService = requestTypeService;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -94,6 +98,7 @@ namespace WebsiteForms.API.v1.Controllers
                 LastAcademicLevel = req.LastAcademicLevel,
                 DocumentType = req.DocumentType,
                 EconomicActivity = req.EconomicActivity,
+                SQRType = req.SQRType,
             };
 
 
@@ -101,10 +106,10 @@ namespace WebsiteForms.API.v1.Controllers
 
             if(req.File != null) insertedId = await _requestService.AddWithFile(newRequest, req.File);
             else insertedId = _requestService.Add(newRequest);
+
             if(req.RequestTypeId == 17){
                 var habeasData = new HabeasData
                 {
-                    SQRType = req.SQRType,
                     LandLine = req.LandLine,
                     DeleteOfComercialBases = req.DeleteOfComercialBases,
                     DeleteOfCampaignBases = req.DeleteOfCampaignBases,
@@ -117,6 +122,24 @@ namespace WebsiteForms.API.v1.Controllers
                 };
 
                 _requestService.AddWithHabeasData(habeasData);
+                var emailData = new EmailData
+                {
+                    Key = "f6e59593-5a14-44f8-a79d-41bfa8c4ece0",
+                    MailTo = newRequest.Email,
+                    Params = new string[] { $"{insertedId}" }
+                };
+                await _emailService.SendEmailAsync(emailData);
+            }
+
+            if(req.RequestTypeId == 13)
+            {
+                var emailData = new EmailData
+                {
+                    Key = "a68bdd89-623f-499b-be3b-bf6f3c741322",
+                    MailTo = newRequest.Email,
+                    Params = new string[] { $"{insertedId}" }
+                };
+                await _emailService.SendEmailAsync(emailData);
             }
 
             string uri = $"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{insertedId}";
