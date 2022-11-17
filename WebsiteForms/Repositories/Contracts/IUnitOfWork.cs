@@ -8,5 +8,6 @@
         IRequestRepository Requests { get; }
         IRequestTypeRepository RequestTypes { get; }
         IHabeasDataRepository HabeasData { get; }
+        IConfigurationRepository Configuration { get; }
     }
 }
