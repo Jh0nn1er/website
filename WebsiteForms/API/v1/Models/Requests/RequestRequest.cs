@@ -10,7 +10,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         [Required, MaxLength(100)]
         public string FullName { get; set; }
         [MaxLength(25)]
-        public string DocumentType { get; set; }
+        public string? DocumentType { get; set; }
 
         [MaxLength(13)]
         public string? Identifier { get; set; }
@@ -69,14 +69,14 @@ namespace WebsiteForms.API.v1.Models.Requests
         [MaxLength(50)]
         public string? EconomicActivity { get; set; }
         [Required, MaxLength(15)]
-        public string SQRType { get; set; }
+        public string? SQRType { get; set; }
         public bool? DeleteOfComercialBases { get; set; }
         public bool? DeleteOfCampaignBases { get; set; }
         public bool? DeleteOfEventBases { get; set; }
-        [Required, MaxLength(10)]
-        public string LandLine { get; set; }
-        [Required, MaxLength(8000)]
-        public string Reason { get; set; }
+        [MaxLength(10)]
+        public string? LandLine { get; set; }
+        [MaxLength(8000)]
+        public string? Reason { get; set; }
         [EmailAddress]
         public string? EmailNotification { get; set; }
         [MaxLength(200)]
