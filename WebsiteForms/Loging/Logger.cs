@@ -104,7 +104,7 @@ namespace WebsiteForms.Loging
         }
         private void InsertLog(string data)
         {
-            using (SqlConnection openCon = new SqlConnection(DbSettings.GetConnectionString()))
+            using (SqlConnection openCon = new SqlConnection(_provider.Options.ConnectionString))
             {
                 string saveLog = "INSERT INTO Logs (JsonData, CreatedBy, CreatedAt) VALUES (@data, @createdBy, @createdAt)";
 
