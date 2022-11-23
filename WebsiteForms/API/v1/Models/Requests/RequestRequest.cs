@@ -68,7 +68,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         public string? LastAcademicLevel { get; set; }
         [MaxLength(50)]
         public string? EconomicActivity { get; set; }
-        [Required, MaxLength(15)]
+        [MaxLength(15)]
         public string? SQRType { get; set; }
         public bool? DeleteOfComercialBases { get; set; }
         public bool? DeleteOfCampaignBases { get; set; }
