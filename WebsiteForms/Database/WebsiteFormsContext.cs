@@ -11,9 +11,8 @@ namespace WebsiteForms.Database
         }
 
         public virtual DbSet<RequestType> RequestTypes { get; set; }
-
         public virtual DbSet<Request> Requests { get; set; }
-
+        public virtual DbSet<RequestFiles> RequestFiles { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public DbSet<Log> Log { get; set; }
         public DbSet<HabeasData> HabeasData { get; set; }
