@@ -43,9 +43,6 @@ namespace WebsiteForms.Database.Entities
         [MaxLength(50)]
         public string ProcedureType { get; set; }
 
-        [MaxLength(2048)]
-        public string FileURL { get; set; }
-
         [MaxLength(50)]
         public string PQRType { get; set; }
 
@@ -63,7 +60,7 @@ namespace WebsiteForms.Database.Entities
         public string? LastAcademicLevel { get; set; }
         [MaxLength(200)]
         public string? EconomicActivity { get; set; }
-        [MaxLength(15)]
+        [MaxLength(200)]
         public string? SQRType { get; set; }
         public virtual RequestType RequestType { get; set; }
     }
