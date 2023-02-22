@@ -7,13 +7,13 @@ namespace WebsiteForms.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class RenameCommentAndFileFields : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RenameCommentAndFileFields));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202203221424426_RenameCommentAndFileFields"; }
+            get { return "202302211649091_initial"; }
         }
         
         string IMigrationMetadata.Source
