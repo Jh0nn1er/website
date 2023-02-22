@@ -57,7 +57,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         public bool? PersonalDataProcessingAuthorization { get; set; }
 
         [AllowExtensions(".pdf")]
-        public IFormFile? File { get; set; }
+        public List<IFormFile?> File { get; set; }
 
         public short? Age { get; set; }
 
