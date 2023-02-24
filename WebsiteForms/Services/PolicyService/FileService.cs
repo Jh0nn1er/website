@@ -14,7 +14,12 @@
         {
             string newFileName = fileName ?? file.FileName;
 
-            string filePath = Path.Combine(_path, newFileName);
+            //string filePath = Path.Combine(_path, newFileName);
+
+            string folderPath = Path.Combine(Environment.CurrentDirectory, "Files");
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+            
+            string filePath = Path.Combine(folderPath, newFileName);
             using (Stream fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
