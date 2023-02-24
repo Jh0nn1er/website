@@ -101,11 +101,11 @@ namespace WebsiteForms.API.v1.Controllers
                 SQRType = req.SQRType,
             };
 
-
             int? insertedId;
 
-            if(req.File != null) insertedId = await _requestService.AddWithFile(newRequest, req.File);
-            else insertedId = _requestService.Add(newRequest);
+            insertedId = _requestService.Add(newRequest);
+
+            if(req.File != null) await _requestService.AddFiles(req.File, (int)insertedId);
 
             if(req.RequestTypeId == 17){
                 var habeasData = new HabeasData
