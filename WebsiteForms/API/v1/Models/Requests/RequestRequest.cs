@@ -57,7 +57,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         public bool? PersonalDataProcessingAuthorization { get; set; }
 
         [AllowExtensions(".pdf")]
-        public IFormFile? File { get; set; }
+        public List<IFormFile?>? File { get; set; }
 
         public short? Age { get; set; }
 
@@ -68,7 +68,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         public string? LastAcademicLevel { get; set; }
         [MaxLength(50)]
         public string? EconomicActivity { get; set; }
-        [MaxLength(15)]
+        [MaxLength(200)]
         public string? SQRType { get; set; }
         public bool? DeleteOfComercialBases { get; set; }
         public bool? DeleteOfCampaignBases { get; set; }
