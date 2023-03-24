@@ -14,9 +14,9 @@ namespace WebsiteForms.API.v1.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
-#if !DEBUG
+//#if !DEBUG
 [Authorization]
-#endif
+//#endif
     public class RequestsController : ControllerBase
     {
         private readonly IRequestService _requestService;

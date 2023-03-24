@@ -11,13 +11,20 @@ using System.Data.Entity;
 using WebsiteForms;
 using WebsiteForms.Loging;
 using WebsiteForms.Services.EmailService;
+using WebsiteForms.Services.NewService;
+using WebsiteForms.Contracts.Auth;
+using WebsiteForms.Auth.Services;
+using WebsiteForms.Auth.Handlers;
+using WebsiteForms.Auth.Models;
+using WebsiteForms.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Logging.AddDbLogger(options => {
+builder.Logging.AddDbLogger(options =>
+{
     builder.Configuration.GetSection("Logging").GetSection("CustomLogging").GetSection("Options").Bind(options);
-    });
+});
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -50,6 +57,10 @@ services.AddScoped<IUserService, UserService>();
 services.AddScoped<IRequestTypeService, RequestTypeService>();
 services.AddScoped<IPolicyService, FileService>();
 services.AddScoped<IEmailService, EmailService>();
+services.AddScoped<INewService, NewService>();
+
+builder.Services.AddAuthServices(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -64,7 +75,9 @@ app.UseSwaggerUI();
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .WithOrigins("https://www.finanzauto.com.co"));
+    .AllowAnyOrigin()
+    //.WithOrigins("https://www.finanzauto.com.co")
+    );
 
 app.UseMiddleware<JwtMiddleware>();
 

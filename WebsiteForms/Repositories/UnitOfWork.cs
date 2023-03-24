@@ -13,6 +13,7 @@ namespace WebsiteForms.Repositories
         public IHabeasDataRepository HabeasData { get; set; }
         public IConfigurationRepository Configuration { get; set; }
         public IRequestFilesRepository RequestFiles { get; set; }
+        public INewRepository News { get; private set; }
 
         public UnitOfWork(WebsiteFormsContext context)
         {
@@ -24,6 +25,8 @@ namespace WebsiteForms.Repositories
             HabeasData = new HabeasDataRepository(_context);
             Configuration = new ConfigurationRepository(_context);
             RequestFiles = new RequestFilesRepository(_context);
+            News = new NewRepository(_context);
+
         }
 
         public UnitOfWork() : this(new WebsiteFormsContext())

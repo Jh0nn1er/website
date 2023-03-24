@@ -17,5 +17,7 @@ namespace WebsiteForms.Database
         public DbSet<Log> Log { get; set; }
         public DbSet<HabeasData> HabeasData { get; set; }
         public DbSet<Configuration> Configurations { get; set; }
+        public DbSet<New> News { get; set; }
+
     }
 }

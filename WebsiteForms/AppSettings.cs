@@ -10,11 +10,15 @@ namespace WebsiteForms
         private const string DEFAULT_ISSUER = "localhost";
         private const string DEFAULT_EXPIRE_TOKEN_MINUTES = "30";
         private const string DEFAULT_FILES_FOLDER = "Files";
-        private const string DEFAULT_DB_SERVER = "(localdb)\\MSSqlLocalDb";
+        //private const string DEFAULT_DB_SERVER = "(LOCALDB)\\SERVERDB";
+        //private const string DEFAULT_DB_NAME = "WebsiteForms";
+        //private const string DEFAULT_DB_USER = "";
+        //private const string DEFAULT_DB_PASSWORD = "";
+        private const string DEFAULT_DB_SERVER = "192.168.50.39\\TEST";
         private const string DEFAULT_DB_NAME = "WebsiteForms";
-        private const string DEFAULT_DB_USER = "";
-        private const string DEFAULT_DB_PASSWORD = "";
-        private const string DEFAULT_DB_INTEGRATED_SECURITY = "True";
+        private const string DEFAULT_DB_USER = "DevPlaneacion";
+        private const string DEFAULT_DB_PASSWORD = "CimEfRiB#767";
+        private const string DEFAULT_DB_INTEGRATED_SECURITY = "false";
 
         public string SecretKey { get; private set; }
         public string AudienceToken { get; private set; }

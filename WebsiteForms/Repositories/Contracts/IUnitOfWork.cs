@@ -10,5 +10,7 @@
         IRequestTypeRepository RequestTypes { get; }
         IHabeasDataRepository HabeasData { get; }
         IConfigurationRepository Configuration { get; }
+        INewRepository News { get; }
+
     }
 }
