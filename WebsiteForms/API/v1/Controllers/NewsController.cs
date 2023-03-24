@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using WebsiteForms.API.v1.Models.News;
+using WebsiteForms.Auth.Models;
 using WebsiteForms.Database.Entities;
 using WebsiteForms.Services.NewService;
 
@@ -9,7 +10,7 @@ namespace WebsiteForms.API.v1.Controllers
 {
     [ApiController]
     [Route("/api/v1/[controller]")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = ApiKeyAuthenticationOptions.DefaultScheme)]
 
     public class NewsController : ControllerBase
     {
@@ -21,7 +22,6 @@ namespace WebsiteForms.API.v1.Controllers
         }
 
         [HttpGet("GetNews")]
-        //[Authorize]
         public IActionResult GetNews(int? NewId)
         {
             if (NewId != null)
@@ -50,7 +50,6 @@ namespace WebsiteForms.API.v1.Controllers
         }
         [HttpPost("AddNews")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        //[Authorize]
 
         public async Task<ActionResult> CreateNew([FromBody] PostNewReq req)
         {
@@ -76,7 +75,6 @@ namespace WebsiteForms.API.v1.Controllers
 
         [HttpPut("UpNews")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        //[Authorize]
 
         public async Task<ActionResult> UpdateNew([FromBody] PutNewReq req)
         {
