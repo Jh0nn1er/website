@@ -2,10 +2,8 @@
 {
     public class PostNewReq
     {
-        public string newTitle { get; set; }
-        public string newDescription { get; set; }
-        public string newUrl { get; set; }
-        public DateTime newDate { get; set; }
-        public bool newState { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string? Url { get; set; }
     }
 }
