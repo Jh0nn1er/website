@@ -9,8 +9,10 @@ using WebsiteForms.Services.NewService;
 namespace WebsiteForms.API.v1.Controllers
 {
     [ApiController]
-    [Route("/api/v1/[controller]")]
+    [Route("/api/v1/news")]
+#if !DEBUG
     [Authorize(AuthenticationSchemes = ApiKeyAuthenticationOptions.DefaultScheme)]
+#endif
 
     public class NewsController : ControllerBase
     {
@@ -21,95 +23,67 @@ namespace WebsiteForms.API.v1.Controllers
             _newService = newService;
         }
 
-        [HttpGet("GetNews")]
-        public IActionResult GetNews(int? NewId)
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<New>>> GetNews()
         {
-            if (NewId != null)
-            {
-                int Id = NewId.Value;
-                var news = _newService.GetById(Id);
-                if (news != null)
-                {
-                    return Ok(news);
-                }
-                else
-                {
-                    return BadRequest(new
-                    {
-                        msg = "No existe registros de noticias con este Id "
-                    });
+            var news = _newService.GetAsync(n => n.State == true);
+            if(news == null)
+                return NotFound();
 
-                }
-            }
-            else
-            {
-                var news = _newService.GetAll();
-                return Ok(news);
-            }
-
-        }
-        [HttpPost("AddNews")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-
-        public async Task<ActionResult> CreateNew([FromBody] PostNewReq req)
-        {
-            if (req != null)
-            {
-                var newAdd = new New()
-                {
-                    newTitle = req.newTitle,
-                    newDescription = req.newDescription,
-                    newUrl = req.newUrl,
-                    newState = req.newState,
-                    newDate = req.newDate,
-                    CreatedAt = DateTime.Now,
-                };
-                _newService.Add(newAdd);
-                return Ok(newAdd);
-            }
-            else
-            {
-                return StatusCode(500);
-            }
+            return Ok(news);
         }
 
-        [HttpPut("UpNews")]
+        [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<New>> CreateNew([FromBody] PostNewReq req)
+        {
+            var newAdd = new New()
+            {
+                Title = req.Title,
+                Description = req.Description,
+                Url = req.Url,
+                State = true,
+                CreatedAt = DateTime.Now,
+            };
+            _newService.Add(newAdd);
+            return Ok(new { id = newAdd.Id });
+        }
 
+        [HttpPut]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult> UpdateNew([FromBody] PutNewReq req)
         {
-            if (req != null)
-            {
-                var verify = _newService.GetById(req.Id);
-                if (verify != null)
-                {
-                    var newUpdate = new New()
-                    {
-                        Id = req.Id,
-                        newTitle = req.newTitle,
-                        newDescription = req.newDescription,
-                        newUrl = req.newUrl,
-                        newState = req.newState,
-                        newDate = req.newDate,
-                        CreatedAt = DateTime.Now,
+            if (req == null)
+                return BadRequest(new { msg = "Debe enviar un request" });
 
-                    };
-                    _newService.Update(newUpdate);
-                    return Ok(newUpdate);
-                }
-                else
-                {
-                    return BadRequest(new
-                    {
-                        msg = "No existe registros de noticias con este Id "
-                    });
-                }
+            var @new = _newService.GetById(req.Id);
+            if (@new == null)
+                return NotFound(new { msg = "No existe registros de noticias con este Id " });
 
-            }
-            else
+            var newUpdate = new New()
             {
+                Id = req.Id,
+                Title = req.Title,
+                Description = req.Description,
+                Url = req.Url,
+                State = req.State,
+                CreatedAt = @new.CreatedAt
+            };
+            var result = _newService.Update(newUpdate);
+            if (result == 0)
                 return StatusCode(500);
-            }
+            
+            return Ok(newUpdate);
+        }
+
+        [HttpGet("{newId}")]
+        public ActionResult<New> GetNew(int newId)
+        {
+            var @new = _newService.GetById(newId);
+            if(@new == null)
+                return NotFound();
+
+            return Ok(@new);
         }
     }
 }
