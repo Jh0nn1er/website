@@ -11,6 +11,6 @@
         IHabeasDataRepository HabeasData { get; }
         IConfigurationRepository Configuration { get; }
         INewRepository News { get; }
-
+        IInformationGroupRepository InformationGroups { get; }
     }
 }

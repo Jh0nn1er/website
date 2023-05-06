@@ -17,6 +17,7 @@ using WebsiteForms.Auth.Services;
 using WebsiteForms.Auth.Handlers;
 using WebsiteForms.Auth.Models;
 using WebsiteForms.Auth;
+using WebsiteForms.Services.InformationGroupService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +59,9 @@ services.AddScoped<IRequestTypeService, RequestTypeService>();
 services.AddScoped<IPolicyService, FileService>();
 services.AddScoped<IEmailService, EmailService>();
 services.AddScoped<INewService, NewService>();
+services.AddScoped<IInformationGroupService, InformationGroupService>();
+
+services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddAuthServices(builder.Configuration);
 

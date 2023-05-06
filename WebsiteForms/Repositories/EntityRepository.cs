@@ -32,6 +32,11 @@ namespace WebsiteForms.Repositories
             return DbSet.Where(predicate);
         }
 
+        public IEnumerable<TEntity> FindAndInclude(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includeexpression)
+        {
+            return DbSet.Where(predicate).Include(includeexpression).ToList();
+        }
+
         public IEnumerable<TEntity> GetAll()
         {
             return DbSet.ToList();

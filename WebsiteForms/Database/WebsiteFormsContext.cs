@@ -18,6 +18,8 @@ namespace WebsiteForms.Database
         public DbSet<HabeasData> HabeasData { get; set; }
         public DbSet<Configuration> Configurations { get; set; }
         public DbSet<New> News { get; set; }
+        public DbSet<InformationGroup> InformationGroups { get; set; }
+        public DbSet<Document> Documents { get; set; }
 
     }
 }
