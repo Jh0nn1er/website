@@ -22,9 +22,21 @@ namespace WebsiteForms.Services.InformationGroupService
             return _mapper.Map<List<InformationGroupVm>>(informationGroups).ToList();
         }
 
+        public List<InformationGroupVm> GetByParentId(int parentId)
+        {
+            var informationGroups = _informationGroupRepository.FindAndInclude(ig => ig.ParentInformationGroupId == parentId, ig => ig.Documents);
+            return _mapper.Map<List<InformationGroupVm>>(informationGroups).ToList();
+        }
+
         public InformationGroup GetById(int id)
         {
             return _informationGroupRepository.GetById(id);
+        }
+
+        public List<InformationGroupMainVm> GetMainGroups()
+        {
+            var mainGroups = _informationGroupRepository.Find(ig => ig.ParentInformationGroupId == null).ToList();
+            return _mapper.Map<List<InformationGroupMainVm>>(mainGroups);
         }
     }
 }

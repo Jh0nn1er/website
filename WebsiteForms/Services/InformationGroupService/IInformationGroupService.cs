@@ -7,5 +7,7 @@ namespace WebsiteForms.Services.InformationGroupService
     {
         InformationGroup GetById(int id);
         List<InformationGroupVm> GetAll();
+        List<InformationGroupMainVm> GetMainGroups();
+        List<InformationGroupVm> GetByParentId(int id);
     }
 }

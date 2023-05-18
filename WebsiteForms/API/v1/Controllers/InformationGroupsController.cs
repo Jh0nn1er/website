@@ -26,5 +26,13 @@ namespace WebsiteForms.API.v1.Controllers
              var informationGroups = _informationGroupService.GetAll();
             return Ok(informationGroups);
         }
+
+        [HttpGet("main")]
+        public ActionResult<List<InformationGroupMainVm>> GetMainGroups()
+            => Ok(_informationGroupService.GetMainGroups());
+
+        [HttpGet("subgroups/{parentId}")]
+        public ActionResult<List<InformationGroupVm>> GetbyParentId(int parentId)
+            => Ok(_informationGroupService.GetByParentId(parentId));
     }
 }

@@ -10,6 +10,7 @@ namespace WebsiteForms.Mappings
         {
             CreateMap<InformationGroup, InformationGroupVm>();
             CreateMap<Document, DocumentVm>();
+            CreateMap<InformationGroup, InformationGroupMainVm>();
         }
     }
 }
