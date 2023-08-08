@@ -18,7 +18,7 @@ namespace WebsiteForms.Services.InformationGroupService
 
         public List<InformationGroupVm> GetAll()
         {
-            var informationGroups = _informationGroupRepository.FindAndInclude(ig => ig.ParentInformationGroupId == null, ig => ig.Documents);
+            var informationGroups = _informationGroupRepository.GetAll();
             return _mapper.Map<List<InformationGroupVm>>(informationGroups).ToList();
         }
 
@@ -35,7 +35,7 @@ namespace WebsiteForms.Services.InformationGroupService
 
         public List<InformationGroupMainVm> GetMainGroups()
         {
-            var mainGroups = _informationGroupRepository.Find(ig => ig.ParentInformationGroupId == null).ToList();
+            var mainGroups = _informationGroupRepository.Find(ig => ig.ParentInformationGroupId == null).OrderBy(ig => ig.Order).ToList();
             return _mapper.Map<List<InformationGroupMainVm>>(mainGroups);
         }
     }
