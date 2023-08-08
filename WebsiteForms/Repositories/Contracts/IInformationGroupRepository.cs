@@ -4,5 +4,6 @@ namespace WebsiteForms.Repositories.Contracts
 {
     public interface IInformationGroupRepository : ISimpleConsultRepository<InformationGroup>, ILambdaConsultRepository<InformationGroup>
     {
+        public List<InformationGroup> GetAll();
     }
 }
