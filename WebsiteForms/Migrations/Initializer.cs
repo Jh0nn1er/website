@@ -109,6 +109,12 @@ namespace WebsiteForms.Migrations
                 Name = "Habeas data",
                 CreatedAt = DateTime.Now
             },
+            new RequestType()
+            {
+                Id = 17,
+                Name = "Extensión de plazo",
+                CreatedAt = DateTime.Now
+            },
         };
         private static readonly List<User> _users = new()
         {
@@ -122,7 +128,7 @@ namespace WebsiteForms.Migrations
             new User()
             {
                 Id = 2,
-                Username = "Finanzauto",
+                Username = "WebSiteFinanzauto",
                 Password = Hashing.HashString("-FZWeb.2022"),
                 CreatedAt = DateTime.Now
             },
