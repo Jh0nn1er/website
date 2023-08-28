@@ -63,5 +63,6 @@ namespace WebsiteForms.Database.Entities
         [MaxLength(200)]
         public string? SQRType { get; set; }
         public virtual RequestType RequestType { get; set; }
+        public string?  Address { get; set; }
     }
 }

@@ -83,5 +83,6 @@ namespace WebsiteForms.API.v1.Models.Requests
         public string? AddressNotification { get; set; }
         [MaxLength(15)]
         public string? CellPhoneNotification { get; set; }
+        public string? Address { get; set; }
     }
 }

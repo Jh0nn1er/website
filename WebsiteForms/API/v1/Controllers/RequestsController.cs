@@ -99,6 +99,7 @@ namespace WebsiteForms.API.v1.Controllers
                 DocumentType = req.DocumentType,
                 EconomicActivity = req.EconomicActivity,
                 SQRType = req.SQRType,
+                Address = req.Address,
             };
 
             int? insertedId;
