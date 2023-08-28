@@ -111,7 +111,7 @@ namespace WebsiteForms.Migrations
             },
             new RequestType()
             {
-                Id = 17,
+                Id = 18,
                 Name = "Extensión de plazo",
                 CreatedAt = DateTime.Now
             },
