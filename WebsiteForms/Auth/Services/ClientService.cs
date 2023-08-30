@@ -50,7 +50,8 @@ namespace WebsiteForms.Auth.Services
             var responseString = await response.Content.ReadAsStringAsync();
             if (Guid.TryParse(responseString.Replace("\"", string.Empty), out Guid clientId))
             {
-                _clients.Add(apiKey, clientId);
+                if (!_clients.Any(c => c.Key == apiKey))
+                    _clients.Add(apiKey, clientId);
                 return true;
             }
             return false;
