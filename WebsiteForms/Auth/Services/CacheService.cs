@@ -24,7 +24,11 @@ namespace WebsiteForms.Auth.Services
                 if (!isValidApiKey)
                     return null;
 
-                internalKeys = await _clientsService.GetActiveClients();
+                var activeClients = await _clientsService.GetActiveClients();
+                var newInternalKeys = new Dictionary<string, Guid>();
+                foreach (var activeClient in activeClients)
+                    newInternalKeys.Add(activeClient.Key, activeClient.Value);
+                internalKeys = newInternalKeys;
 
                 _memoryCache.Set("WebsiteFormsAuthenticationApiKeys", internalKeys, _cacheKeysTimeToLive);
             }
