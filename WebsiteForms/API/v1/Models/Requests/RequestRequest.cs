@@ -9,6 +9,8 @@ namespace WebsiteForms.API.v1.Models.Requests
     {
         [Required, MaxLength(100)]
         public string FullName { get; set; }
+        [MaxLength(25)]
+        public string? DocumentType { get; set; }
 
         [MaxLength(13)]
         public string? Identifier { get; set; }
@@ -46,7 +48,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         [MaxLength(50)]
         public string? PQRType { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(8000)]
         public string? Comment { get; set; }
 
         [Required]
@@ -55,7 +57,7 @@ namespace WebsiteForms.API.v1.Models.Requests
         public bool? PersonalDataProcessingAuthorization { get; set; }
 
         [AllowExtensions(".pdf")]
-        public IFormFile? File { get; set; }
+        public List<IFormFile?>? File { get; set; }
 
         public short? Age { get; set; }
 
@@ -64,5 +66,23 @@ namespace WebsiteForms.API.v1.Models.Requests
 
         [MaxLength(30)]
         public string? LastAcademicLevel { get; set; }
+        [MaxLength(50)]
+        public string? EconomicActivity { get; set; }
+        [MaxLength(200)]
+        public string? SQRType { get; set; }
+        public bool? DeleteOfComercialBases { get; set; }
+        public bool? DeleteOfCampaignBases { get; set; }
+        public bool? DeleteOfEventBases { get; set; }
+        [MaxLength(10)]
+        public string? LandLine { get; set; }
+        [MaxLength(8000)]
+        public string? Reason { get; set; }
+        [EmailAddress]
+        public string? EmailNotification { get; set; }
+        [MaxLength(200)]
+        public string? AddressNotification { get; set; }
+        [MaxLength(15)]
+        public string? CellPhoneNotification { get; set; }
+        public string? Address { get; set; }
     }
 }

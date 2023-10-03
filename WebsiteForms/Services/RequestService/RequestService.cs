@@ -21,7 +21,9 @@ namespace WebsiteForms.Services.RequestService
         }
         public FileStream? GetFileById(int id)
         {
-            var route = _unitOfWork.Requests.GetById(id)?.FileURL;
+            //TODO ajustar  de donde se trae la url del archivo
+            //var route = _unitOfWork.Requests.GetById(id)?.FileURL;
+            var route = _unitOfWork.RequestFiles.GetById(id)?.Id.ToString();
             if (route == null) return null;
 
             return GetFileByRoute(route);
@@ -55,13 +57,56 @@ namespace WebsiteForms.Services.RequestService
             }
         }
 
-        public async Task<int?> AddWithFile(Request request, IFormFile file)
+        public async Task<int?> AddFiles(List<IFormFile> files, int requestId)
         {
-            string savedPath = await SaveFile(file);
-            string dbPath = savedPath.Replace(_appSettings.RootPath, $"~{Path.DirectorySeparatorChar}");
+            using var transaction = _unitOfWork.BeginTransaction();
 
-            request.FileURL = dbPath;
-            return Add(request);
+            var requestFiles = new RequestFiles();
+
+            try
+            {
+                foreach (IFormFile file in files)
+                {
+                    string savedPath = await SaveFile(file);
+                    string dbPath = savedPath.Replace(_appSettings.RootPath, $"~{Path.DirectorySeparatorChar}");
+                    requestFiles.RequestId = requestId;
+                    requestFiles.FileURL = dbPath;
+                    requestFiles.CreatedAt = DateTime.Now;
+                    _unitOfWork.RequestFiles.Add(requestFiles);
+                    _unitOfWork.Save();
+                }
+
+                transaction.Commit();
+
+                return requestFiles.Id;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                return null;
+            }
+        }
+
+        public async Task<int?> AddWithFile(Request request, List<IFormFile> files)
+        {
+            
+            var requestFiles = new RequestFiles();
+
+            try
+            {
+                foreach (IFormFile file in files)
+                {
+                    string savedPath = await SaveFile(file);
+                    string dbPath = savedPath.Replace(_appSettings.RootPath, $"~{Path.DirectorySeparatorChar}");
+                    requestFiles.RequestId = request.Id;
+                    requestFiles.FileURL = dbPath;
+                }
+                return 0;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentNullException();
+            }
         }
 
         public async Task<string> SaveFile(IFormFile file)
@@ -71,6 +116,26 @@ namespace WebsiteForms.Services.RequestService
             string fileName = $"{name}{ext}";
 
             return await _policyService.Save(file, fileName);
+        }
+
+        public int? AddWithHabeasData(HabeasData habeasData)
+
+        {
+            using var transaction = _unitOfWork.BeginTransaction();
+            try 
+            {
+                _unitOfWork.HabeasData.Add(habeasData);
+                _unitOfWork.Save();
+
+                transaction.Commit();
+
+                return habeasData.Id;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                return null;
+            }
         }
     }
 }

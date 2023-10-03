@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using WebsiteForms.API.v1.Models.Requests;
 using WebsiteForms.Authorization;
 using WebsiteForms.Database.Entities;
+using WebsiteForms.Models.Services.Email;
+using WebsiteForms.Services.EmailService;
 using WebsiteForms.Services.RequestService;
 using WebsiteForms.Services.RequestTypeService;
 
@@ -11,16 +14,20 @@ namespace WebsiteForms.API.v1.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
-    [Authorization]
+//#if !DEBUG
+[Authorization]
+//#endif
     public class RequestsController : ControllerBase
     {
         private readonly IRequestService _requestService;
         private readonly IRequestTypeService _requestTypeService;
+        private readonly IEmailService _emailService;
 
-        public RequestsController(IRequestService requestService, IRequestTypeService requestTypeService)
+        public RequestsController(IRequestService requestService, IRequestTypeService requestTypeService, IEmailService emailService)
         {
             _requestService = requestService;
             _requestTypeService = requestTypeService;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -31,6 +38,7 @@ namespace WebsiteForms.API.v1.Controllers
             return Ok(requestTypes);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("{id:int}/file")]
         public IActionResult GetFile(int id)
@@ -88,14 +96,55 @@ namespace WebsiteForms.API.v1.Controllers
                 Age = req.Age,
                 Position = req.Position,
                 LastAcademicLevel = req.LastAcademicLevel,
+                DocumentType = req.DocumentType,
+                EconomicActivity = req.EconomicActivity,
+                SQRType = req.SQRType,
+                Address = req.Address,
             };
+
             int? insertedId;
 
-            if(req.File != null) insertedId = await _requestService.AddWithFile(newRequest, req.File);
-            else insertedId = _requestService.Add(newRequest);
+            insertedId = _requestService.Add(newRequest);
+
+            if(req.File != null) await _requestService.AddFiles(req.File, (int)insertedId);
+
+            if(req.RequestTypeId == 17){
+                var habeasData = new HabeasData
+                {
+                    LandLine = req.LandLine,
+                    DeleteOfComercialBases = req.DeleteOfComercialBases,
+                    DeleteOfCampaignBases = req.DeleteOfCampaignBases,
+                    DeleteOfEventBases = req.DeleteOfEventBases,
+                    Reason = req.Reason,
+                    EmailNotification = req.EmailNotification,
+                    AddressNotification = req.AddressNotification,
+                    CellPhoneNotification = req.CellPhoneNotification,
+                    Request = newRequest,
+                };
+
+                _requestService.AddWithHabeasData(habeasData);
+                var emailData = new EmailData
+                {
+                    Key = "f6e59593-5a14-44f8-a79d-41bfa8c4ece0",
+                    MailTo = newRequest.Email,
+                    Params = new string[] { $"{insertedId}" }
+                };
+                await _emailService.SendEmailAsync(emailData);
+            }
+
+            if(req.RequestTypeId == 13)
+            {
+                var emailData = new EmailData
+                {
+                    Key = "a68bdd89-623f-499b-be3b-bf6f3c741322",
+                    MailTo = newRequest.Email,
+                    Params = new string[] { $"{insertedId}" }
+                };
+                await _emailService.SendEmailAsync(emailData);
+            }
 
             string uri = $"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{insertedId}";
-            if (insertedId != null) return Created(uri, null);
+            if (insertedId != null) return Created(uri, new { id = insertedId });
 
             return StatusCode(500);
         }

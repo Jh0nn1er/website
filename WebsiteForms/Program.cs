@@ -9,10 +9,28 @@ using WebsiteForms.Repositories;
 using WebsiteForms.Database;
 using System.Data.Entity;
 using WebsiteForms;
+using WebsiteForms.Loging;
+using WebsiteForms.Services.EmailService;
+using WebsiteForms.Services.NewService;
+using WebsiteForms.Contracts.Auth;
+using WebsiteForms.Auth.Services;
+using WebsiteForms.Auth.Handlers;
+using WebsiteForms.Auth.Models;
+using WebsiteForms.Auth;
+using WebsiteForms.Services.InformationGroupService;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
+{
+    var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{envName}.json", optional: true, reloadOnChange: true);
+});
 // Add services to the container.
+builder.Logging.AddDbLogger(options =>
+{
+    builder.Configuration.GetSection("Logging").GetSection("CustomLogging").GetSection("Options").Bind(options);
+});
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,21 +62,31 @@ services.AddScoped<IRequestService, RequestService>();
 services.AddScoped<IUserService, UserService>();
 services.AddScoped<IRequestTypeService, RequestTypeService>();
 services.AddScoped<IPolicyService, FileService>();
+services.AddScoped<IEmailService, EmailService>();
+services.AddScoped<INewService, NewService>();
+services.AddScoped<IInformationGroupService, InformationGroupService>();
+
+services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddAuthServices(builder.Configuration);
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
 }
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .WithOrigins("https://www.finanzauto.com.co"));
+    .AllowAnyOrigin()
+    //.WithOrigins("https://www.finanzauto.com.co")
+    );
 
 app.UseMiddleware<JwtMiddleware>();
 

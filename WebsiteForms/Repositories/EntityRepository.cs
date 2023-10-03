@@ -1,10 +1,11 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq.Expressions;
 using WebsiteForms.Repositories.Contracts;
 
 namespace WebsiteForms.Repositories
 {
-    public class EntityRepository<TEntity> : ISimpleConsultRepository<TEntity>, ILambdaConsultRepository<TEntity>, ICreateRepository<TEntity>
+    public class EntityRepository<TEntity> : ISimpleConsultRepository<TEntity>, ILambdaConsultRepository<TEntity>, ICreateRepository<TEntity>, IUpdateRepository<TEntity>
         where TEntity : class
     {
         protected readonly DbContext Context;
@@ -31,6 +32,11 @@ namespace WebsiteForms.Repositories
             return DbSet.Where(predicate);
         }
 
+        public IEnumerable<TEntity> FindAndInclude(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includeexpression)
+        {
+            return DbSet.Where(predicate).Include(includeexpression).ToList();
+        }
+
         public IEnumerable<TEntity> GetAll()
         {
             return DbSet.ToList();
@@ -44,6 +50,13 @@ namespace WebsiteForms.Repositories
         public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
             return DbSet.SingleOrDefault(predicate);
+        }
+
+        public TEntity Update(TEntity entity)
+        {
+            DbSet.AddOrUpdate(entity);
+            return entity;
+
         }
     }
 }
